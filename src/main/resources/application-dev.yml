@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    show-sql: true
+    properties:
+#      hibernate.hbm2ddl.auto: create-drop
+      hibernate.hbm2ddl.auto: validate
+      hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+  datasource:
+    platform: mysql
+    initialize: false
+#    url: jdbc:mysql://localhost:3306/tpcw
+    url: jdbc:mysql://aac2gtq8vzj55d.c7vtta3fbhu3.us-west-2.rds.amazonaws.com:3306/tpcw
+    username: root
+    password: rootroot
+#    password:

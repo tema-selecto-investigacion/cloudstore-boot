@@ -1,0 +1,22 @@
+logging:
+  level:
+    eu.cloudscale: DEBUG
+    org.springframework: INFO
+spring:
+  jpa:
+    properties:
+      javax.persistence.sharedCache.mode: ENABLE_SELECTIVE
+      hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+      hibernate.generate_statistics: false
+      hibernate.cache.use_second_level_cache: true
+      hibernate.cache.use_query_cache: true
+      hibernate.cache.provider_configuration_file_resource_path: "classpath:ehcache.xml"
+      hibernate.current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+  thymeleaf:
+    cache: false
+    enabled: true
+    check-template-location: true
+    content-type: text/html
+    encoding: UTF-8
+  profiles:
+    active: dev
