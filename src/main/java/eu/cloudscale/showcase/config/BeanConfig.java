@@ -2,6 +2,7 @@ package eu.cloudscale.showcase.config;
 
 import eu.cloudscale.showcase.db.generate.GenerateHibernate;
 import net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory;
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.jpa.HibernateEntityManager;
 import org.hibernate.jpa.HibernateEntityManagerFactory;
@@ -9,12 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.jms.Connection;
+import javax.jms.Queue;
+import javax.jms.Session;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -22,9 +27,18 @@ import java.util.Properties;
 @Configuration
 public class BeanConfig {
 
+    @Autowired
+    Environment environment;
+
     @Bean
     public SessionFactory sessionFactory(HibernateEntityManagerFactory hemf){
         return hemf.getSessionFactory();
+    }
+
+    @Bean
+    public Connection activeMQConnection() throws Exception{
+        String brokerUrl = this.environment.getRequiredProperty("cloudstore.jms.broker-url");
+        return new ActiveMQConnectionFactory(brokerUrl).createConnection();
     }
 
 //    @Autowired

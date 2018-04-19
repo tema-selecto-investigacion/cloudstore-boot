@@ -10,8 +10,16 @@
 package eu.cloudscale.showcase.controller.helpers;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,32 +33,45 @@ import java.util.concurrent.Future;
 
 @Service("paymentService")
 public class PaymentService{
+
+	@Autowired
+	private PaymentSender paymentSender;
+
 	public static final String BASE_URL = "https://arcane-meadow-6418.herokuapp.com/";	
 	
 	@Async
 	public Future<String> callPaymentService(String distribution, String attr1, String attr2, String attr3)
 	{
-		try {
-			ExecutorService executor = Executors.newFixedThreadPool(1);
-			String url = this.getUrl(distribution, attr1, attr2, attr3);
-			Future<Response> response = executor.submit(new Request(new URL(url)));
-			InputStream input = response.get().getBody();
-			executor.shutdown();
-		
-			String body = IOUtils.toString(input, "UTF-8");
-			return new AsyncResult<String>(body);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} 
-		catch (InterruptedException e) {
-			e.printStackTrace();
-		} 
-		catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+//		try {
+//			ExecutorService executor = Executors.newFixedThreadPool(1);
+//			String url = this.getUrl(distribution, attr1, attr2, attr3);
+//			Future<Response> response = executor.submit(new Request(new URL(url)));
+//			InputStream input = response.get().getBody();
+//			executor.shutdown();
+//
+//			String body = IOUtils.toString(input, "UTF-8");
+
+
+			try {
+				String body = this.paymentSender.sendPaymentDetails(distribution, attr1, attr2, attr3);
+				return new AsyncResult<String>(body);
+			} catch (Exception e){
+				e.printStackTrace();
+				return null;
+			}
+
+//		} catch (MalformedURLException e) {
+//			e.printStackTrace();
+//		}
+//		catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//		catch (ExecutionException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
 	}
 	
 	private String getUrl(String distribution, String attr1, String attr2, String attr3)

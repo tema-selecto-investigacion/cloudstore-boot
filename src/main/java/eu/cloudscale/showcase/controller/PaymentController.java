@@ -195,3 +195,10 @@ public class PaymentController extends AController
 	    	errors.add( "That country doesn't exist!" );
     }
 }
+
+
+// http://localhost:8080/buy-confirm?zip=&country=&CC_TYPE=Discover&city=&C_ID=2&SHOPPING_ID=15&distribution=gauss&attr2=2&attr1=1&SHIPPING=SHIP&attr3=0&CC_EXPIRY=10/10/2020&street1=&street2=&state=&CC_NUMBER=123456789&CC_NAME=John%20Doe
+
+// http://localhost:8080/buy?RETURNING_FLAG=Y&&SHOPPING_ID=26username=al&password=al&birthdate=&fname=&lname=&street1=&street2=&city=&state=&zip=&country=&phone=&email=&data=
+
+// http://localhost:8080/buy?RETURNING_FLAG=Y&SHOPPING_ID=3&username=&password=&C_ID=18974

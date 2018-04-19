@@ -2,7 +2,6 @@ spring:
   jpa:
     show-sql: true
     properties:
-#      hibernate.hbm2ddl.auto: create-drop
       hibernate.hbm2ddl.auto: validate
       hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
   datasource:
@@ -12,4 +11,9 @@ spring:
     url: jdbc:mysql://aac2gtq8vzj55d.c7vtta3fbhu3.us-west-2.rds.amazonaws.com:3306/tpcw
     username: root
     password: rootroot
-#    password:
+
+cloudstore:
+  jms:
+    broker-url: tcp://ec2-18-236-167-36.us-west-2.compute.amazonaws.com:61616
+    payment: payment-queue
+    payment-status: payment-status-queue
