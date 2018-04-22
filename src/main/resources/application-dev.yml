@@ -9,7 +9,7 @@ spring:
     platform: mysql
     initialize: false
 #    url: jdbc:mysql://localhost:3306/tpcw
-    url: jdbc:mysql://aac2gtq8vzj55d.c7vtta3fbhu3.us-west-2.rds.amazonaws.com:3306/tpcw
+    url: jdbc:mysql://aa15qy9kq3c7pt6.c7vtta3fbhu3.us-west-2.rds.amazonaws.com:3306/tpcw
     username: root
     password: rootroot
 #    password:
