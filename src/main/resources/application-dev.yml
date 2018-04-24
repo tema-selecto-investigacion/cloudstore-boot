@@ -7,13 +7,12 @@ spring:
   datasource:
     platform: mysql
     initialize: false
-#    url: jdbc:mysql://localhost:3306/tpcw
-    url: jdbc:mysql://aac2gtq8vzj55d.c7vtta3fbhu3.us-west-2.rds.amazonaws.com:3306/tpcw
+    url: jdbc:mysql://aa15qy9kq3c7pt6.c7vtta3fbhu3.us-west-2.rds.amazonaws.com:3306/tpcw
     username: root
     password: rootroot
 
 cloudstore:
   jms:
-    broker-url: tcp://ec2-54-202-79-225.us-west-2.compute.amazonaws.com:61616
+    broker-url: tcp://ec2-34-217-209-119.us-west-2.compute.amazonaws.com:61616
     payment: payment-queue
     payment-status: payment-status-queue

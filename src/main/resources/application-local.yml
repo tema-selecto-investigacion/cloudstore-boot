@@ -2,19 +2,22 @@ spring:
   jpa:
     show-sql: true
     properties:
-      hibernate.hbm2ddl.auto: update
+      hibernate.hbm2ddl.auto: validate
       hibernate.generate_statistics: false
-      hibernate.dialect: org.hibernate.dialect.H2Dialect
+      hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+#      hibernate.dialect: org.hibernate.dialect.H2Dialect
   datasource:
-    platform: h2
+#    platform: h2
     initialize: false
-    url: jdbc:h2:~/tpcw;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password: sa
-  h2:
-    console:
-      path: /h2-console
-      enabled: true
+#    url: jdbc:h2:~/tpcw;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE
+    username: root
+    password:
+    platform: mysql
+    url: jdbc:mysql://localhost:3306/tpcw
+#  h2:
+#    console:
+#      path: /h2-console
+#      enabled: true
 #  activemq:
 #    broker-url: tcp://localhost:61616
 #    user: admin
