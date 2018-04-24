@@ -25,34 +25,52 @@ import java.util.concurrent.Future;
 
 @Service("paymentService")
 public class PaymentService{
-	public static final String BASE_URL = "https://arcane-meadow-6418.herokuapp.com/";	
-	
-	@Async
-	public Future<String> callPaymentService(String distribution, String attr1, String attr2, String attr3)
+	public static final String BASE_URL = "https://arcane-meadow-6418.herokuapp.com/";
+
+	public String callPaymentService(String distribution, String attr1, String attr2, String attr3)
 	{
 		try {
-			ExecutorService executor = Executors.newFixedThreadPool(1);
 			String url = this.getUrl(distribution, attr1, attr2, attr3);
-			Future<Response> response = executor.submit(new Request(new URL(url)));
-			InputStream input = response.get().getBody();
-			executor.shutdown();
-		
+			Request request = new Request(new URL(url));
+			InputStream input = request.call().getBody();
 			String body = IOUtils.toString(input, "UTF-8");
-			return new AsyncResult<String>(body);
+			return body;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-		} 
-		catch (InterruptedException e) {
-			e.printStackTrace();
-		} 
-		catch (ExecutionException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e){
 			e.printStackTrace();
 		}
 		return null;
 	}
 	
+//	@Async
+//	public Future<String> callPaymentService(String distribution, String attr1, String attr2, String attr3)
+//	{
+//		try {
+//			ExecutorService executor = Executors.newFixedThreadPool(1);
+//			String url = this.getUrl(distribution, attr1, attr2, attr3);
+//			Future<Response> response = executor.submit(new Request(new URL(url)));
+//			InputStream input = response.get().getBody();
+//			executor.shutdown();
+//
+//			String body = IOUtils.toString(input, "UTF-8");
+//			return new AsyncResult<String>(body);
+//		} catch (MalformedURLException e) {
+//			e.printStackTrace();
+//		}
+//		catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//		catch (ExecutionException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
+
 	private String getUrl(String distribution, String attr1, String attr2, String attr3)
 	{
 		String url = "";

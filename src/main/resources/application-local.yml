@@ -2,16 +2,17 @@ spring:
   jpa:
     show-sql: true
     properties:
-      hibernate.hbm2ddl.auto: update
-      hibernate.generate_statistics: true
+      hibernate.hbm2ddl.auto: none
+      hibernate.generate_statistics: false
       hibernate.dialect: org.hibernate.dialect.H2Dialect
   datasource:
-    platform: h2
+    platform: mysql
     initialize: false
-    url: jdbc:h2:~/tpcw;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password: sa
-  h2:
-    console:
-      path: /h2-console
-      enabled: true
+#    url: jdbc:h2:~/tpcw;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:mysql://localhost:3306/tpcw
+    username: root
+    password:
+#  h2:
+#    console:
+#      path: /h2-console
+#      enabled: true
