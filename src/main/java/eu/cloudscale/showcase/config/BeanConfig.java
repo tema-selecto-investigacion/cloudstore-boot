@@ -38,7 +38,10 @@ public class BeanConfig {
     @Bean
     public Connection activeMQConnection() throws Exception{
         String brokerUrl = this.environment.getRequiredProperty("cloudstore.jms.broker-url");
-        return new ActiveMQConnectionFactory(brokerUrl).createConnection();
+        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(brokerUrl);
+        factory.setOptimizeAcknowledge(true);
+        factory.setAlwaysSessionAsync(true);
+        return factory.createConnection();
     }
 
 //    @Autowired
