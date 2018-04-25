@@ -10,6 +10,8 @@
 package eu.cloudscale.showcase.controller.helpers;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
@@ -25,12 +27,17 @@ import java.util.concurrent.Future;
 
 @Service("paymentService")
 public class PaymentService{
-	public static final String BASE_URL = "https://arcane-meadow-6418.herokuapp.com/";
+
+    private static final Logger LOG = LoggerFactory.getLogger(PaymentService.class);
+
+    public static final String BASE_URL = "https://arcane-meadow-6418.herokuapp.com/";
+
 
 	public String callPaymentService(String distribution, String attr1, String attr2, String attr3)
 	{
 		try {
 			String url = this.getUrl(distribution, attr1, attr2, attr3);
+			LOG.debug("URL = {}", url);
 			Request request = new Request(new URL(url));
 			InputStream input = request.call().getBody();
 			String body = IOUtils.toString(input, "UTF-8");
