@@ -11,6 +11,8 @@ package eu.cloudscale.showcase.controller;
 
 import eu.cloudscale.showcase.controller.helpers.PaymentService;
 import eu.cloudscale.showcase.db.BuyConfirmResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -33,14 +35,15 @@ import java.util.concurrent.Future;
 
 @Controller
 @RequestMapping( "/payment" )
-public class PaymentController extends AController
-{
+public class PaymentController extends AController {
+
+	private static final Logger LOG = LoggerFactory.getLogger(PaymentController.class);
 	
 	@Autowired
 	@Qualifier("paymentService")
 	PaymentService paymentService;
 	
-	static Future<String> paymentResult;
+//	static Future<String> paymentResult;
 
 	private static Map<String, String[]> redirectAttrsMap = new HashMap<String, String[]>();
 	
@@ -122,32 +125,40 @@ public class PaymentController extends AController
 		model.addAttribute("results", res);
 		setupFrontend( model, shoppingId, customerId );
 		
-		if( errors.isEmpty() )
-		{
-			paymentResult = paymentService.callPaymentService(distribution, attr1, attr2, attr3);
+		if( errors.isEmpty() ) {
+//			paymentResult = paymentService.callPaymentService(distribution, attr1, attr2, attr3);
+			String body = paymentService.callPaymentService(distribution, attr1, attr2, attr3);
+			LOG.debug("==> From payment service, body is {}", body);
+
 		}
-		
+
+//		String url = "";
+//		for(String key : redirectAttrsMap.keySet()) {
+//			url += key +"=" + redirectAttrsMap.get(key)[0] + "&";
+//		}
+//		return "redirect:/buy-confirm?" + url.substring(0, url.length()-1);
+
 		return "payment";
 		
 	}
 	
-	@RequestMapping(value="/status")
-	@ResponseBody
-	public String getStatus(HttpServletRequest request,
-                            Model model, RedirectAttributes redirectAttributes)
-	{
-		
-		if(paymentResult.isDone())
-		{
-			String url = "";
-			for(String key : redirectAttrsMap.keySet())
-			{
-				url += key +"=" + redirectAttrsMap.get(key)[0] + "&";
-			}			
-			return "buy-confirm?" + url.substring(0, url.length()-1);
-		}
-		return "WORKING";
-	}
+//	@RequestMapping(value="/status")
+//	@ResponseBody
+//	public String getStatus(HttpServletRequest request,
+//                            Model model, RedirectAttributes redirectAttributes)
+//	{
+//
+//		if(paymentResult.isDone())
+//		{
+//			String url = "";
+//			for(String key : redirectAttrsMap.keySet())
+//			{
+//				url += key +"=" + redirectAttrsMap.get(key)[0] + "&";
+//			}
+//			return "buy-confirm?" + url.substring(0, url.length()-1);
+//		}
+//		return "WORKING";
+//	}
 	
 	
 	
@@ -202,3 +213,5 @@ public class PaymentController extends AController
 // http://localhost:8080/buy?RETURNING_FLAG=Y&&SHOPPING_ID=26username=al&password=al&birthdate=&fname=&lname=&street1=&street2=&city=&state=&zip=&country=&phone=&email=&data=
 
 // http://localhost:8080/buy?RETURNING_FLAG=Y&SHOPPING_ID=3&username=&password=&C_ID=18974
+
+// http http://localhost:8080/payment?street1=Izanska+c.+233&street2=&city=Ljubljana&zip=1000&country=Germany&CC_TYPE=Discover&CC_NAME=Simon+Ivansek&CC_NUMBER=12345678&CC_EXPIRY=04%2F03%2F2014&SHIPPING_ID=&C_ID=21112&distribution=expo&attr1=5&attr3=2

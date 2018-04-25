@@ -38,9 +38,8 @@ public class PaymentService{
 	private PaymentSender paymentSender;
 
 	public static final String BASE_URL = "https://arcane-meadow-6418.herokuapp.com/";	
-	
-	@Async
-	public Future<String> callPaymentService(String distribution, String attr1, String attr2, String attr3)
+
+	public String callPaymentService(String distribution, String attr1, String attr2, String attr3)
 	{
 //		try {
 //			ExecutorService executor = Executors.newFixedThreadPool(1);
@@ -53,8 +52,7 @@ public class PaymentService{
 
 
 			try {
-				String body = this.paymentSender.sendPaymentDetails(distribution, attr1, attr2, attr3);
-				return new AsyncResult<String>(body);
+				return this.paymentSender.sendPaymentDetails(distribution, attr1, attr2, attr3);
 			} catch (Exception e){
 				e.printStackTrace();
 				return null;
