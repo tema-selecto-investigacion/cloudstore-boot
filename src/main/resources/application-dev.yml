@@ -13,6 +13,6 @@ spring:
 
 cloudstore:
   jms:
-    broker-url: tcp://ec2-34-217-209-119.us-west-2.compute.amazonaws.com:61616
+    broker-url: tcp://ec2-35-162-238-169.us-west-2.compute.amazonaws.com:61616
     payment: payment-queue
     payment-status: payment-status-queue
